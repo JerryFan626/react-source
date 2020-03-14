@@ -1,5 +1,6 @@
 import React from "react";
 import RouterContext from "./RouterContext.js";
+import createBrowserHistory from "../history/createBrowserHistory";
 
 /**
  * HashRouter只是一个容器，并没有DOM结构，它渲染的就是它的子组件
@@ -10,7 +11,8 @@ export default class HashRouter extends React.Component {
     location: {
       pathname: window.location.hash.slice(1) || "/", // #/user => /user
       state: window.history.state
-    }
+    },
+    history: createBrowserHistory()
   };
   componentDidMount() {
     window.addEventListener("hashchange", event => {
@@ -28,7 +30,14 @@ export default class HashRouter extends React.Component {
 
   render() {
     let routerValue = {
-      location: this.state.location
+      location: this.state.location,
+      // 因为之前写的history 是browserhistory
+      history: {
+        ...this.state.history,
+        push: function push(path, state) {
+          window.location.hash = path;
+        }
+      }
     };
 
     return (
