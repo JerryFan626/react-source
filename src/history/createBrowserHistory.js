@@ -1,5 +1,3 @@
-import { listeners } from "cluster";
-
 export default function createBrowserHistory() {
   const globalHistory = window.history;
 
