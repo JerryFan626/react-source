@@ -15,7 +15,13 @@ export default class Route extends React.Component {
     /**
      * exact 为false 意味着   /user 会被 /user包含的字符串所匹配
      */
-    let { path = "/", component: RouteComponent, exact = false } = this.props; // <Route/>上的属性
+    let {
+      path = "/",
+      component: RouteComponent,
+      exact = false,
+      render,
+      children
+    } = this.props; // <Route/>上的属性
     let pathname = this.context.location.pathname;
     // 下面的这种匹配 不严谨， 需要用正则匹配
     // if ((exact && pathname === path) || (!exact && pathname.startsWith(path))) {
@@ -49,8 +55,22 @@ export default class Route extends React.Component {
         params
       };
       routeProps.match = match;
-      return <RouteComponent {...routeProps} />;
+
+      if (RouteComponent) {
+        return <RouteComponent {...routeProps} />;
+      } else if (render) {
+        return render(routeProps);
+      } else if (children) {
+        return children(routeProps);
+      } else {
+        return null;
+      }
+    } else {
+      if (children) {
+        return children(routeProps);
+      } else {
+        return null;
+      }
     }
-    return null;
   }
 }

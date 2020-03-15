@@ -10,17 +10,22 @@ import {
 import Home from "./components/Home";
 import User from "./components/User";
 import Profile from "./components/Profile";
+import Login from "./components/Login";
+import Private from "./components/Private";
 
 ReactDOM.render(
   <Router>
     <Link to="/">Home</Link> ___
     <Link to="/user">User</Link> ___
-    <Link to="/profile">Profile</Link>
+    <Link to="/profile">Profile</Link>___
+    <Link to="/login">Login</Link>
+    <div>{localStorage.getItem("login")}</div>
     <br />
     <Switch>
       <Route path="/" exact={true} component={Home} />
       <Route path="/user" component={User} />
-      <Route path="/profile" component={Profile} />
+      <Private path="/profile" component={Profile} />
+      <Route path="/login" component={Login} />
       <Redirect from="/home" to="/" />
     </Switch>
   </Router>,
