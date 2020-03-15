@@ -51,6 +51,7 @@ export default function createBrowserHistory() {
   let isBlocked = false;
   function block(prompt = false) {
     isBlocked = prompt;
+    history.prompt = prompt; //为了写block加的 源码和这个不太一致
   }
 
   let history = {

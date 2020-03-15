@@ -31,12 +31,17 @@ export default class HashRouter extends React.Component {
 
   render() {
     let that = this;
+    let history = this.state.history;
     let routerValue = {
       location: this.state.location,
       // 因为之前写的history 是browserhistory
       history: {
         ...this.state.history,
-        push: function push(to) {
+        push(to) {
+          if (history.prompt) {
+            let yes = window.confirm("离开此页面数据将清空,确认要离开吗？");
+            if (!yes) return;
+          }
           if (typeof to === "object") {
             let { pathname, state } = to;
             that.locationState = state; //源码hash是不能传state的，我们这里修改为可以传，也就是页面刷新后state还在
@@ -44,10 +49,15 @@ export default class HashRouter extends React.Component {
           } else {
             window.location.hash = to;
           }
+        },
+        block(prompt = false) {
+          history.prompt = prompt; //为了写block加的 源码和这个不太一致
+          console.log(history);
         }
       }
     };
 
+    console.log(routerValue);
     return (
       <RouterContext.Provider value={routerValue}>
         {this.props.children}
