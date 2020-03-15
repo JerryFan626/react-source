@@ -13,17 +13,10 @@ import Profile from "./components/Profile";
 
 ReactDOM.render(
   <Router>
-    <ul>
-      <li>
-        <Link to="/">Home</Link>
-      </li>
-      <li>
-        <Link to="/user">user</Link>
-      </li>
-      <li>
-        <Link to="/profile">profile</Link>
-      </li>
-    </ul>
+    <Link to="/">Home</Link> <br />
+    <Link to="/user">user</Link> <br />
+    <Link to="/profile">profile</Link>
+    <br />
     <Switch>
       <Route path="/" exact="true" component={Home} />
       <Route path="/user" component={User} />

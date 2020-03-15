@@ -27,6 +27,7 @@ export default function Switch(props) {
     */
 
     let { path = "/", component: RouteComponent, exact = false } = child.props;
+    // path-to-regexp源码中  //var end = options.end !== false
     let regexp = pathToRegexp(path, [], { end: exact });
 
     console.log(pathname, path, exact, regexp);
