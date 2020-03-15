@@ -24,7 +24,6 @@ export default class Route extends React.Component {
     } = this.props; // <Route/>上的属性
 
     path = typeof path === "string" ? path : path.pathname;
-
     let pathname = this.context.location.pathname;
     // 下面的这种匹配 不严谨， 需要用正则匹配
     // if ((exact && pathname === path) || (!exact && pathname.startsWith(path))) {
