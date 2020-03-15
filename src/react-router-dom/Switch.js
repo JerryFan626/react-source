@@ -28,9 +28,10 @@ export default function Switch(props) {
 
     let { path = "/", component: RouteComponent, exact = false } = child.props;
     let regexp = pathToRegexp(path, [], { end: exact });
+
     console.log(pathname, path, exact, regexp);
     if (regexp.test(pathname)) {
-      return <RouteComponent {...routerContext} />;
+      return child;
     }
   }
 
