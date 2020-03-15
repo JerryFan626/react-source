@@ -19,7 +19,7 @@ ReactDOM.render(
       </li>
     </ul>
     <Switch>
-      <Route path="/" exact={true} component={Home} />
+      <Route path="/" component={Home} />
       <Route path="/user" component={User} />
       <Route path="/profile" component={Profile} />
     </Switch>

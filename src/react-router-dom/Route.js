@@ -12,6 +12,9 @@ export default class Route extends React.Component {
   static contextType = RouterContext;
 
   render() {
+    /**
+     * exact 为false 意味着   /user 会被 /user包含的字符串所匹配
+     */
     let { path = "/", component: RouteComponent, exact = false } = this.props; // <Route/>上的属性
     let pathname = this.context.location.pathname;
     // 下面的这种匹配 不严谨， 需要用正则匹配
@@ -20,6 +23,7 @@ export default class Route extends React.Component {
     // } else {
     //   return null;
     // }
+
     let regexp = pathToRegexp(path, [], { end: exact });
     if (regexp.test(pathname)) {
       return <RouteComponent {...this.context} />;

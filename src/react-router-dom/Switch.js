@@ -18,17 +18,19 @@ export default function Switch(props) {
 
   let pathname = routerContext.location.pathname;
   for (let i = 0; i < children.length; i++) {
+    // debugger;
     let child = children[i]; //这个child是虚拟DOM也是react元素
     /**
      * child:
      * React.createElement(Route,{exact,path,component})
        {type:Route,props:{exact,path,component}}
     */
-    let { path = "/", component, exact } = child.props;
+
+    let { path = "/", component: RouteComponent, exact = false } = child.props;
     let regexp = pathToRegexp(path, [], { end: exact });
+    console.log(pathname, path, exact, regexp);
     if (regexp.test(pathname)) {
-      // return <Component {...routerContext} />;
-      return child;
+      return <RouteComponent {...routerContext} />;
     }
   }
 
