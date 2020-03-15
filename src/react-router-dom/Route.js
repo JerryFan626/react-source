@@ -22,6 +22,9 @@ export default class Route extends React.Component {
       render,
       children
     } = this.props; // <Route/>上的属性
+
+    path = typeof path === "string" ? path : path.pathname;
+
     let pathname = this.context.location.pathname;
     // 下面的这种匹配 不严谨， 需要用正则匹配
     // if ((exact && pathname === path) || (!exact && pathname.startsWith(path))) {
@@ -32,9 +35,9 @@ export default class Route extends React.Component {
     //路由的三个props
     let routeProps = {
       location: this.context.location,
-      history: this.context.history,
-      match: ""
+      history: this.context.history
     };
+    // 匹配，routeProps才有match属性
 
     let paramNames = [];
     let regexp = pathToRegexp(path, paramNames, { end: exact });

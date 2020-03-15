@@ -6,6 +6,7 @@ export default function Link(props) {
     <RouterContext.Consumer>
       {routeValue => (
         <a
+          {...props}
           href={`#${typeof props.to === "object" ? props.to.pathname : props.to}`}
           onClick={() => routeValue.history.push(props.to)}
         >
