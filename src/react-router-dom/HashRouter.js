@@ -20,7 +20,8 @@ export default class HashRouter extends React.Component {
         ...this.state,
         location: {
           ...this.state.location,
-          pathname: window.location.hash.slice(1) || "/"
+          pathname: window.location.hash.slice(1) || "/",
+          state: this.locationState
         }
       });
     });
@@ -29,13 +30,20 @@ export default class HashRouter extends React.Component {
   }
 
   render() {
+    let that = this;
     let routerValue = {
       location: this.state.location,
       // 因为之前写的history 是browserhistory
       history: {
         ...this.state.history,
-        push: function push(path, state) {
-          window.location.hash = path;
+        push: function push(to) {
+          if (typeof to === "object") {
+            let { pathname, state } = to;
+            that.locationState = state; //源码hash是不能传state的，我们这里修改为可以传，也就是页面刷新后state还在
+            window.location.hash = pathname;
+          } else {
+            window.location.hash = to;
+          }
         }
       }
     };

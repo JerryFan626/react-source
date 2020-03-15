@@ -1,9 +1,10 @@
 let { pathToRegexp } = require("path-to-regexp");
 
-let regexp = pathToRegexp("/user", [], { end: false });
-console.log(regexp);
-
-console.log(regexp.test("/"));
-console.log(regexp.test("/user/asdf"));
+let path = "/user/detail/:id/:age";
+let pathName = "/user/detail/myid/10";
+let paramNames = [];
+let regexp = pathToRegexp(path, paramNames, { end: true });
+let matched = pathName.match(regexp);
+console.log(matched);
 // console.log(regexp.test("/user/"));
 // console.log(regexp.test("/user/1"));

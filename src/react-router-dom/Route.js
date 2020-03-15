@@ -23,10 +23,33 @@ export default class Route extends React.Component {
     // } else {
     //   return null;
     // }
+    //路由的三个props
+    let routeProps = {
+      location: this.context.location,
+      history: this.context.history,
+      match: ""
+    };
 
-    let regexp = pathToRegexp(path, [], { end: exact });
-    if (regexp.test(pathname)) {
-      return <RouteComponent {...this.context} />;
+    let paramNames = [];
+    let regexp = pathToRegexp(path, paramNames, { end: exact });
+    paramNames = paramNames.map(item => item.name); //["id","age"]
+
+    let matched = pathname.match(regexp); //['/user/detail/myid/10','myid',10]
+    if (matched) {
+      let [url, ...values] = matched;
+      let params = values.reduce((memo, value, index) => {
+        memo[paramNames[index]] = value;
+        return memo;
+      }, {}); //{id:'myid',age:10}
+
+      let match = {
+        url,
+        path,
+        isExact: pathname === url,
+        params
+      };
+      routeProps.match = match;
+      return <RouteComponent {...routeProps} />;
     }
     return null;
   }
