@@ -6,16 +6,8 @@
   </head>
   <body>
     <div id="root"></div>
-    <script>
-      !(function(history) {
-        let pushState = history.pushState; //在自执行函数缓存旧的pushState方法
-        history.pushState = function(state, title, url) {
-          if (typeof window.onpushstate == "function") {
-            window.onpushstate(state, url);
-          }
-          return pushState.apply(history, arguments);
-        };
-      })(window.history);
-    </script>
+
+    <div id="increment-btn">+</div>
+    <div id="decrement-btn">-</div>
   </body>
 </html>

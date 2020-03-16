@@ -1,41 +1,32 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import {
-  BrowserRouter as Router,
-  Route,
-  Link,
-  Switch,
-  Redirect,
-  NavLink
-} from "./react-router-dom";
-import Home from "./components/Home";
-import User from "./components/User";
-import Profile from "./components/Profile";
-import Login from "./components/Login";
-import Private from "./components/Private";
-import NavHeader from "./components/NavHeader";
+import { createStore } from "./redux";
 
-ReactDOM.render(
-  <>
-    <Router>
-      <NavHeader title="首页" />
-      <NavLink to="/" exact={true}>
-        Home
-      </NavLink>
-      {"  "}
-      <NavLink to="/user">User</NavLink> {"  "}
-      <NavLink to="/profile">Profile</NavLink> {"  "}
-      <NavLink to="/login">Login</NavLink> {"  "}
-      <Link to="/login">{localStorage.getItem("login")}</Link>
-      <br />
-      <Switch>
-        <Route path="/" exact={true} component={Home} />
-        <Route path="/user" component={User} />
-        <Private path="/profile" component={Profile} />
-        <Route path="/login" component={Login} />
-        <Redirect from="/home" to="/" />
-      </Switch>
-    </Router>
-  </>,
-  document.getElementById("root")
-);
+const INCREMENT = "INCREMENT";
+const DECREMENT = "DECREMENT";
+
+function reducer(state, action) {
+  switch (action.type) {
+    case INCREMENT:
+      return { num: state.num + 1 };
+    case DECREMENT:
+      return { num: state.num - 1 };
+    default:
+      return state;
+  }
+}
+let initialState = { num: 0 };
+let store = createStore(reducer, initialState);
+let root = document.getElementById("root");
+let incrementBtn = document.getElementById("increment-btn");
+let decrementBtn = document.getElementById("decrement-btn");
+
+const render = () => {
+  root.innerHTML = store.getState().num;
+};
+render();
+store.subscribe(render);
+incrementBtn.addEventListener("click", () => {
+  store.dispatch({ type: INCREMENT });
+});
+decrementBtn.addEventListener("click", () => {
+  store.dispatch({ type: DECREMENT });
+});
