@@ -1,3 +1,3 @@
 import createStore from "./createStore";
-
-export { createStore };
+import bindActionCreators from "./bindActionCreators";
+export { createStore, bindActionCreators };

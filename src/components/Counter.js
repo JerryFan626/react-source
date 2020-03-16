@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import store from "../store";
-import * as TYPES from "../store/action-types";
+import action from "../store/action";
+import { bindActionCreators } from "../redux";
 
 export default function Counter(props) {
   let [num, setNum] = useState(store.getState().num);
 
+  let boundActions = bindActionCreators(action, store.dispatch);
   /**
    * 这个订阅方法不需要每次组件刷新都要执行
    * useEffect的第二个参数是依赖变量的数组 为[]就只会执行一次
@@ -19,8 +21,8 @@ export default function Counter(props) {
   return (
     <div>
       <p>{num}</p>
-      <button onClick={() => store.dispatch({ type: TYPES.INCREMENT })}>+</button>
-      <button onClick={() => store.dispatch({ type: TYPES.DECREMENT })}>-</button>
+      <button onClick={boundActions.increment}>+</button>
+      <button onClick={boundActions.decrement}>-</button>
     </div>
   );
 }
