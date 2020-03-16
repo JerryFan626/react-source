@@ -8,6 +8,8 @@ function Counter1(props) {
       <p>{props.num}</p>
       <button onClick={props.increment}>+</button>
       <button onClick={props.decrement}>-</button>
+      <button onClick={props.thunkAdd}>thunkAdd</button>
+      <button onClick={props.promiseAdd}>PromiseAdd</button>
     </div>
   );
 }
