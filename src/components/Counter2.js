@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
-import store from "../store";
+import React, { useState, useEffect, useContext } from "react";
+// import store from "../store";
 import action from "../store/actions/counter2";
 import { bindActionCreators } from "../redux";
+import { ReactReduxContext } from "../react-redux";
 
 export default function Counter(props) {
+  let { store } = useContext(ReactReduxContext);
   let [num, setNum] = useState(store.getState().counter2.num);
 
   let boundActions = bindActionCreators(action, store.dispatch);
@@ -16,7 +18,7 @@ export default function Counter(props) {
     return store.subscribe(() => {
       setNum(store.getState().counter2.num);
     });
-  }, []);
+  }, [store]);
 
   return (
     <div>
