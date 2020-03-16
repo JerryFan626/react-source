@@ -1,4 +1,4 @@
-import { createStore } from "../redux";
+import { createStore, compose } from "../redux";
 // import reducer from "./reducer";
 import reducers from "./reducers";
 
@@ -43,13 +43,13 @@ function promise({ dispatch, geetState }) {
   };
 }
 
-function applyMiddleware(middleware) {
+function applyMiddleware(...middlewares) {
   return function(createStore) {
     return function(reducer) {
       //这个变成了类似 增强版的createStore
       let store = createStore(reducer); //原始的未修改的store
       let dispatch; //刚开始的时候dispatch = undefined
-      middleware = middleware({
+      let middlewareAPI = {
         getState: store.getState,
         dispatch: action => dispatch(action)
         /* 为什么这里不能写store.dispath
@@ -58,8 +58,9 @@ function applyMiddleware(middleware) {
          * 是为了让我们在中间件里可以重头再来，重新派发
          * 用函数包裹，就是用闭包，可以引用到外部的dispatch 外部改变，可以影响到内部
          */
-      }); //=> 返回了 function(next){...}
-      dispatch = middleware(store.dispatch);
+      }; //=> 返回了 function(next){...}
+      let chain = middlewares.map(middleware => middleware(middlewareAPI));
+      dispatch = compose(...chain)(store.dispatch);
 
       store = { ...store, dispatch };
       return store;
@@ -67,7 +68,7 @@ function applyMiddleware(middleware) {
   };
 }
 
-let store = applyMiddleware(promise)(createStore)(reducers);
+let store = applyMiddleware(promise, thunk, logger)(createStore)(reducers);
 
 export default store;
 
